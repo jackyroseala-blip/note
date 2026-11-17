@@ -1,659 +1,462 @@
--
-// ==========================
-// CLOCKS
-// ==========================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
+
+    const $ = id => document.getElementById(id);
+    const val = id => $(id).value.trim();
+
+    const copyBtn = $("copyNoteBtn");
+
+    // ==========================
+    // CLOCKS
+    // ==========================
 
     function updateClocks() {
         const now = new Date();
 
-        // Philippines Time
-        document.getElementById("phTime").textContent =
-            now.toLocaleTimeString("en-US", {
-                timeZone: "Asia/Manila",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                hour12: true
-            });
+        $("phTime").textContent = now.toLocaleTimeString("en-US", {
+            timeZone: "Asia/Manila",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true
+        });
 
-        // Central Time
-        document.getElementById("ctTime").textContent =
-            now.toLocaleTimeString("en-US", {
-                timeZone: "America/Chicago",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                hour12: true
-            });
+        $("ctTime").textContent = now.toLocaleTimeString("en-US", {
+            timeZone: "America/Chicago",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true
+        });
     }
 
     updateClocks();
     setInterval(updateClocks, 1000);
 
-});
-// ==========================
-// ELEMENTS
-// ==========================
 
-const noteBtn = document.getElementById("noteTabBtn");
-const historyBtn = document.getElementById("historyTabBtn");
+    // ==========================
+    // TABS
+    // ==========================
 
-const noteTab = document.getElementById("noteTab");
-const historyTab = document.getElementById("historyTab");
+    $("noteTabBtn").addEventListener("click", () => {
+        $("noteTab").classList.remove("hidden");
+        $("historyTab").classList.add("hidden");
 
-const copyBtn = document.getElementById("copyNoteBtn");
-
-// ==========================
-// TAB SWITCHING
-// ==========================
-
-noteBtn.addEventListener("click", () => {
-
-    noteTab.classList.remove("hidden");
-    historyTab.classList.add("hidden");
-
-    noteBtn.classList.add("active");
-    historyBtn.classList.remove("active");
-
-});
-
-historyBtn.addEventListener("click", () => {
-
-    historyTab.classList.remove("hidden");
-    noteTab.classList.add("hidden");
-
-    historyBtn.classList.add("active");
-    noteBtn.classList.remove("active");
-
-    loadHistory();
-
-});
-
-// ==========================
-// OTHER RELATIONSHIP
-// ==========================
-
-document.getElementById("spokeWith")
-.addEventListener("change", function () {
-
-    document.getElementById(
-        "otherRelationshipContainer"
-    ).style.display =
-        this.value === "Other"
-            ? "block"
-            : "none";
-
-});
-
-// ==========================
-// OTHER SHIPPING METHOD
-// ==========================
-
-document.getElementById("shippingMethod")
-.addEventListener("change", function () {
-
-    document.getElementById(
-        "otherShippingContainer"
-    ).style.display =
-        this.value === "Other"
-            ? "block"
-            : "none";
-
-});
-
-// ==========================
-// CURRENCY FORMAT
-// ==========================
-
-document.getElementById("copay")
-.addEventListener("blur", function () {
-
-    let num = this.value.replace(/[^\d.]/g, "");
-
-    if (!num) return;
-
-    this.value = Number(num).toLocaleString(
-        "en-US",
-        {
-            style: "currency",
-            currency: "USD"
-        }
-    );
-
-});
-
-// ==========================
-// ATTESTATION
-// ==========================
-
-document.getElementById("attestation")
-.addEventListener("change", function () {
-
-    copyBtn.disabled = !this.checked;
-
-});
-
-// ==========================
-// COPY NOTE
-// ==========================
-
-copyNoteBtn.addEventListener("click", async () => {
-
-    const spokeWith = document.getElementById("spokeWith");
-    const otherRelationship = document.getElementById("otherRelationship");
-    const callerName = document.getElementById("callerName");
-    const mdOfficeHours = document.getElementById("mdOfficeHours");
-    const punr = document.getElementById("punr");
-    const orderNumber = document.getElementById("orderNumber");
-    const medicationName = document.getElementById("medicationName");
-    const medicationCost = document.getElementById("medicationCost");
-    const deliveryDate = document.getElementById("deliveryDate");
-    const copay = document.getElementById("copay");
-    const obeNeeded = document.getElementById("obeNeeded");
-    const activeObe = document.getElementById("activeObe");
-    const medicaid = document.getElementById("medicaid");
-    const sameAddress = document.getElementById("sameAddress");
-    const sameMd = document.getElementById("sameMd");
-    const shippingAddress = document.getElementById("shippingAddress");
-    const growthHormone = document.getElementById("growthHormone");
-    const restrictedState = document.getElementById("restrictedState");
-    const shippingMethod = document.getElementById("shippingMethod");
-    const otherShippingMethod = document.getElementById("otherShippingMethod");
-
-    // Required Validation
-
-    if (!spokeWith.value) {
-        alert("Spoke With is required.");
-        return;
-    }
-
-    if (!callerName.value.trim()) {
-        alert("Caller's Name is required.");
-        return;
-    }
-
-    if (!punr.value) {
-        alert("PUNR is required.");
-        return;
-    }
-
-    if (!deliveryDate.value) {
-        alert("Delivery Date is required.");
-        return;
-    }
-
-    if (!copay.value.trim()) {
-        alert("Copay / AR Balance is required.");
-        return;
-    }
-
-    if (!medicaid.value) {
-        alert("Insurance Under Medicaid is required.");
-        return;
-    }
-
-    if (!sameAddress.value) {
-        alert("Address confirmation is required.");
-        return;
-    }
-
-    if (!shippingAddress.value.trim()) {
-        alert("Shipping Address is required.");
-        return;
-    }
-
-    if (!growthHormone.value) {
-        alert("Growth Hormone field is required.");
-        return;
-    }
-
-    if (!shippingMethod.value) {
-        alert("Shipping Method is required.");
-        return;
-    }
-
-    if (
-        shippingMethod.value === "Other" &&
-        !otherShippingMethod.value.trim()
-    ) {
-        alert("Specify Shipping Method.");
-        return;
-    }
-
-    let note = "CASE NOTE\n\n";
-
-    note += `Spoke With: ${spokeWith.value}\n`;
-
-    if (
-        spokeWith.value === "Other" &&
-        otherRelationship.value
-    ) {
-        note += `Other Relationship: ${otherRelationship.value}\n`;
-    }
-
-    note += `Caller's Name: ${callerName.value}\n`;
-
-    if (mdOfficeHours.value)
-        note += `MD Office Hours: ${mdOfficeHours.value}\n`;
-
-    note += `PUNR: ${punr.value}\n`;
-
-    if (orderNumber.value)
-        note += `Order Number: ${orderNumber.value}\n`;
-
-    if (deliveryDate.value)
-        note += `Delivery Date: ${deliveryDate.value}\n`;
-
-    if (copay.value)
-        note += `Copay / AR Balance: ${copay.value}\n`;
-
-    if (obeNeeded.value)
-        note += `OBE Needed: ${obeNeeded.value}\n`;
-
-    if (activeObe.value)
-        note += `Active OBE: ${activeObe.value}\n`;
-
-    if (medicaid.value)
-        note += `Insurance Under Medicaid: ${medicaid.value}\n`;
-
-    if (sameAddress.value)
-        note += `Address Same As Previous Order: ${sameAddress.value}\n`;
-
-    if (sameMd.value)
-        note += `Same MD On Rx: ${sameMd.value}\n`;
-
-    if (shippingAddress.value)
-        note += `Shipping Address: ${shippingAddress.value}\n`;
-
-    if (growthHormone.value)
-        note += `Growth Hormone Medication: ${growthHormone.value}\n`;
-
-    if (restrictedState.value)
-        note += `Shipping State CO/ID/MN/NV/RI/WV: ${restrictedState.value}\n`;
-
-   if (
-    shippingMethod.value === "Other" &&
-    otherShippingMethod.value
-) {
-    note += `Specified Shipping Method: ${otherShippingMethod.value}\n`;
-}
-
-// Attestation
-note += `\nI attest that I have verified with the patient that there are no changes to the insurance on file.\n`;
-
-// Shipping Reminder
-note += `\nShipping Reminder:\nDeliveries to CO, ID, MN, NV, RI, and WV must require a signature.\n`;
-
-    try {
-
-        await navigator.clipboard.writeText(note);
-
-    } catch {
-
-        alert("Unable to copy note.");
-        return;
-
-    }
-
-    let history =
-        JSON.parse(
-            localStorage.getItem("caseNotes") || "[]"
-        );
-
-    history.unshift({
-    type: "DEL SET",
-    date: new Date().toLocaleString(),
-    note: note
-});
-
-    localStorage.setItem(
-        "caseNotes",
-        JSON.stringify(history)
-    );
-
-    alert("Case note copied and saved successfully.");
-
-});
-
-// ==========================
-// HISTORY
-// ==========================
-
-function loadHistory() {
-
-    const container =
-        document.getElementById("historyContainer");
-
-    const history =
-        JSON.parse(
-            localStorage.getItem("caseNotes") || "[]"
-        );
-
-    if (history.length === 0) {
-
-        container.innerHTML = `
-            <div class="empty-history">
-                No saved case notes yet.
-            </div>
-        `;
-
-        return;
-    }
-
-    container.innerHTML = "";
-
-    history.forEach(item => {
-
-        container.innerHTML += `
-<div class="history-card">
-
-    <div class="history-date">
-        ${item.date}
-    </div>
-
-    <div class="history-type ${
-        item.type === "STANDARD"
-            ? "standard-badge"
-            : "delset-badge"
-    }">
-        ${item.type || "DEL SET"}
-    </div>
-
-    <div class="history-note">
-        ${item.note.replace(/\n/g, "<br>")}
-    </div>
-
-</div>
-`;
-
+        $("noteTabBtn").classList.add("active");
+        $("historyTabBtn").classList.remove("active");
     });
 
-}
+    $("historyTabBtn").addEventListener("click", () => {
+        $("historyTab").classList.remove("hidden");
+        $("noteTab").classList.add("hidden");
 
-// ==========================
-// CLEAR DEL SET
-// ==========================
+        $("historyTabBtn").classList.add("active");
+        $("noteTabBtn").classList.remove("active");
 
-document.getElementById("clearBtn")
-.addEventListener("click", () => {
+        loadHistory();
+    });
 
-    if (!confirm("Clear DEL SET fields?")) {
-        return;
+
+    // ==========================
+    // CONDITIONAL FIELDS
+    // ==========================
+
+    $("spokeWith").addEventListener("change", () => {
+        $("otherRelationshipContainer").style.display =
+            val("spokeWith") === "Other" ? "block" : "none";
+    });
+
+    $("sameAddress").addEventListener("change", () => {
+        $("addressReasonContainer").style.display =
+            val("sameAddress") === "No" ? "block" : "none";
+    });
+
+    $("shippingMethod").addEventListener("change", () => {
+        $("otherShippingContainer").style.display =
+            val("shippingMethod") === "Other" ? "block" : "none";
+    });
+
+
+    // ==========================
+    // CURRENCY FORMAT
+    // ==========================
+
+    $("copay").addEventListener("blur", function () {
+        const num = this.value.replace(/[^\d.]/g, "");
+
+        if (num && !isNaN(Number(num))) {
+            this.value = Number(num).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            });
+        }
+    });
+
+
+    // ==========================
+    // ATTESTATION
+    // ==========================
+
+    $("attestation").addEventListener("change", function () {
+        copyBtn.disabled = !this.checked;
+    });
+
+
+    // ==========================
+    // VALIDATION
+    // ==========================
+
+    function validateField(id, label) {
+        if (!val(id)) {
+            alert(label + " is required.");
+            $(id).focus();
+            return false;
+        }
+
+        return true;
     }
 
-    document.getElementById("spokeWith").selectedIndex = 0;
-    document.getElementById("callerName").value = "";
-    document.getElementById("otherRelationship").value = "";
-    document.getElementById("mdOfficeHours").value = "";
-    document.getElementById("punr").selectedIndex = 0;
-    document.getElementById("orderNumber").value = "";
-    document.getElementById("deliveryDate").value = "";
-    document.getElementById("copay").value = "";
-    document.getElementById("obeNeeded").selectedIndex = 0;
-    document.getElementById("activeObe").selectedIndex = 0;
-    document.getElementById("medicaid").selectedIndex = 0;
-    document.getElementById("sameAddress").selectedIndex = 0;
-    document.getElementById("sameMd").selectedIndex = 0;
-    document.getElementById("growthHormone").selectedIndex = 0;
-    document.getElementById("restrictedState").selectedIndex = 0;
-    document.getElementById("shippingMethod").selectedIndex = 0;
-    document.getElementById("shippingAddress").value = "";
-    document.getElementById("otherShippingMethod").value = "";
 
-    document.getElementById("attestation").checked = false;
+    // ==========================
+    // HISTORY SAVE
+    // ==========================
 
-    document.getElementById(
-        "otherRelationshipContainer"
-    ).style.display = "none";
+    function saveHistory(type, note) {
+        const history = JSON.parse(
+            localStorage.getItem("caseNotes") || "[]"
+        );
 
-    document.getElementById(
-        "otherShippingContainer"
-    ).style.display = "none";
+        history.unshift({
+            type: type,
+            date: new Date().toLocaleString(),
+            note: note
+        });
 
-    copyBtn.disabled = true;
+        localStorage.setItem(
+            "caseNotes",
+            JSON.stringify(history)
+        );
+    }
 
-});
-// ==========================
-// STANDARD NOTE
-// ==========================
 
-const copyStandardBtn =
-    document.getElementById("copyStandardBtn");
+    // ==========================
+    // COPY DEL SET NOTE
+    // ==========================
 
-if (copyStandardBtn) {
+    copyBtn.addEventListener("click", async () => {
 
-    copyStandardBtn.addEventListener("click", async () => {
+        const requiredFields = [
+            ["spokeWith", "Spoke With"],
+            ["callerName", "Caller's Name"],
+            ["punr", "PUNR"],
+            ["deliveryDate", "Delivery Date"],
+            ["medicationName", "Medication"],
+            ["copay", "Copay / AR Bal"],
+            ["obeNeeded", "OBE Needed"],
+            ["activeObe", "Active OBE"],
+            ["sameAddress", "Address Confirmation"],
+            ["shipToMdo", "Shipping to MDO"],
+            ["medicaid", "Medicaid Insurance"],
+            ["shippingMethod", "Shipping Method"],
+            ["shippingAddress", "Shipping Address"],
+            ["growthHormone", "Growth Hormone"],
+            ["restrictedState", "Shipping State"],
+            ["medicationCost", "Medication Cost"]
+        ];
 
-        const caller =
-            document.getElementById("stdCaller");
+        for (const [id, label] of requiredFields) {
+            if (!validateField(id, label)) return;
+        }
 
-        const relationship =
-            document.getElementById("stdRelationship");
+        // Conditional validation
 
-        const medication =
-            document.getElementById("stdMedication");
+        if (
+            val("spokeWith") === "Other" &&
+            !validateField("otherRelationship", "Other Relationship")
+        ) return;
 
-        const issue =
-            document.getElementById("stdIssue");
+        if (
+            val("sameAddress") === "No" &&
+            !validateField("addressChangeReason", "Reason for Address Change")
+        ) return;
 
-        const resolution =
-            document.getElementById("stdResolution");
+        if (
+            val("shipToMdo") === "Yes" &&
+            !validateField("sameMd", "Same MD on Rx")
+        ) return;
 
-        if (!caller.value.trim()) {
-            alert("Caller's Name is required.");
+        if (
+            val("shippingMethod") === "Other" &&
+            !validateField("otherShippingMethod", "Other Shipping Method")
+        ) return;
+
+
+        // SIG REQUIREMENT
+
+        if (
+            val("restrictedState") === "Yes" &&
+            val("shippingMethod") !== "Signature Required"
+        ) {
+            alert(
+                "SIG Required is mandatory for CO, ID, MN, NV, RI, and WV."
+            );
+
+            $("shippingMethod").focus();
             return;
         }
 
-        if (!relationship.value.trim()) {
-            alert("Relationship / Title is required.");
+
+        // ATTESTATION CHECK
+
+        if (!$("attestation").checked) {
+            alert("Please verify and check the insurance attestation.");
             return;
         }
 
-        if (!medication.value.trim()) {
-            alert("Medication is required.");
-            return;
-        }
 
-        if (!issue.value.trim()) {
-            alert("Issue / Reason for Call is required.");
-            return;
-        }
+        // ==========================
+        // FORMAT VALUES
+        // ==========================
 
-        if (!resolution.value.trim()) {
-            alert("Resolution / Outcome is required.");
-            return;
-        }
+        const spokeWith =
+            val("spokeWith") === "Other"
+                ? val("otherRelationship") + " - " + val("callerName")
+                : val("spokeWith") + " - " + val("callerName");
 
-        const note = `STANDARD CASE NOTE
+        const officeHours =
+            val("mdOfficeHours") || "N/A";
 
-CALLER'S NAME:
-${caller.value}
+        const addressReason =
+            val("sameAddress") === "No"
+                ? val("addressChangeReason")
+                : "N/A";
 
-RELATIONSHIP TO PATIENT / TITLE:
-${relationship.value}
+        const sameMD =
+            val("shipToMdo") === "Yes"
+                ? val("sameMd")
+                : "N/A";
 
-MEDICATION:
-${medication.value}
+        const shippingMethod =
+            val("shippingMethod") === "Other"
+                ? val("otherShippingMethod")
+                : val("shippingMethod");
 
-ISSUE / REASON FOR CALL:
-${issue.value}
+        const sigRequirement =
+            val("restrictedState") === "Yes"
+                ? "Yes - SIG Req Required"
+                : "No";
 
-RESOLUTION / OUTCOME:
-${resolution.value}`;
+
+        // ==========================
+        // FINAL CASE NOTE
+        // ==========================
+
+        const note = [
+            `Spoke with: ${spokeWith}`,
+            `Office Hours (If Office-Base): ${officeHours}`,
+            `PUNR: ${val("punr")}`,
+            `Delivery Date: ${val("deliveryDate")}`,
+            `Medication: ${val("medicationName")}`,
+            `Copay/ AR Bal: ${val("copay")}`,
+            `OBE Needed?: ${val("obeNeeded")}`,
+            `Is there an active OBE?: ${val("activeObe")}`,
+            `Is the current address the same w/ previous order: ${val("sameAddress")}`,
+            `Reason for address change: ${addressReason}`,
+            `If ship to MDO, is it the same MD on the Rx: ${sameMD}`,
+            `Is the insurance under Medicaid: ${val("medicaid")}`,
+            `Shipping Method: ${shippingMethod}`,
+            `Shipping Address: ${val("shippingAddress")}`,
+            `Is the medication a Growth Hormone: ${val("growthHormone")}`,
+            `Are the state under CO, ID, MN, NV, RI and WV?: ${val("restrictedState")}`,
+            `If Yes, must be SIG Req: ${sigRequirement}`,
+            `MEDICATION COST : ${val("medicationCost")}`,
+            val("remarks") ? `Remarks: ${val("remarks")}` : null,
+            "",
+            "I attest that I have verified with the patient that there are no changes to the insurance on file."
+        ].filter(line => line !== null).join("\n");
+
+
+        // ==========================
+        // COPY TO CLIPBOARD
+        // ==========================
 
         try {
-
             await navigator.clipboard.writeText(note);
 
-        } catch {
+            saveHistory("DEL SET", note);
 
-            alert("Unable to copy note.");
-            return;
+            alert("Case note copied and saved successfully!");
 
+        } catch (error) {
+            alert("Unable to copy. Please use HTTPS or localhost.");
         }
 
-        let history =
-            JSON.parse(
-                localStorage.getItem("caseNotes") || "[]"
-            );
-
-        history.unshift({
-            type: "STANDARD",
-            date: new Date().toLocaleString(),
-            note: note
-        });
-
-        localStorage.setItem(
-            "caseNotes",
-            JSON.stringify(history)
-        );
-
-        alert("Standard note copied and saved.");
     });
 
-}
 
-// ==========================
-// CLEAR STANDARD
-// ==========================
+    // ==========================
+    // LOAD HISTORY
+    // ==========================
 
-document
-.getElementById("clearStandardBtn")
-?.addEventListener("click", () => {
+    function loadHistory() {
 
-    if (!confirm("Clear Standard Note?"))
-        return;
+        const container = $("historyContainer");
 
-    document.getElementById("stdCaller").value = "";
-    document.getElementById("stdRelationship").value = "";
-    document.getElementById("stdMedication").value = "";
-    document.getElementById("stdIssue").value = "";
-    document.getElementById("stdResolution").value = "";
+        const history = JSON.parse(
+            localStorage.getItem("caseNotes") || "[]"
+        );
 
-});
+        container.innerHTML = "";
 
-// ==========================
-// STANDARD NOTE
-// ==========================
-
-const copyStandardBtn =
-    document.getElementById("copyStandardBtn");
-
-if (copyStandardBtn) {
-
-    copyStandardBtn.addEventListener("click", async () => {
-
-        const caller =
-            document.getElementById("stdCaller");
-
-        const relationship =
-            document.getElementById("stdRelationship");
-
-        const medication =
-            document.getElementById("stdMedication");
-
-        const issue =
-            document.getElementById("stdIssue");
-
-        const resolution =
-            document.getElementById("stdResolution");
-
-        if (!caller.value.trim()) {
-            alert("Caller's Name is required.");
+        if (history.length === 0) {
+            container.innerHTML = `
+                <div class="empty-history">
+                    No saved case notes yet.
+                </div>
+            `;
             return;
         }
 
-        if (!relationship.value.trim()) {
-            alert("Relationship / Title is required.");
-            return;
-        }
+        history.forEach(item => {
 
-        if (!medication.value.trim()) {
-            alert("Medication is required.");
-            return;
-        }
+            const card = document.createElement("div");
+            card.className = "history-card";
 
-        if (!issue.value.trim()) {
-            alert("Issue / Reason for Call is required.");
-            return;
-        }
+            const date = document.createElement("div");
+            date.className = "history-date";
+            date.textContent = item.date;
 
-        if (!resolution.value.trim()) {
-            alert("Resolution / Outcome is required.");
-            return;
+            const type = document.createElement("div");
+            type.className = "history-type " +
+                (item.type === "STANDARD"
+                    ? "standard-badge"
+                    : "delset-badge");
+
+            type.textContent = item.type || "DEL SET";
+
+            const note = document.createElement("div");
+            note.className = "history-note";
+            note.textContent = item.note;
+
+            card.append(date, type, note);
+            container.appendChild(card);
+
+        });
+
+    }
+
+
+    // ==========================
+    // CLEAR DEL SET
+    // ==========================
+
+    $("clearBtn").addEventListener("click", () => {
+
+        if (!confirm("Clear DEL SET fields?")) return;
+
+        [
+            "spokeWith",
+            "punr",
+            "obeNeeded",
+            "activeObe",
+            "sameAddress",
+            "shipToMdo",
+            "sameMd",
+            "medicaid",
+            "shippingMethod",
+            "growthHormone",
+            "restrictedState"
+        ].forEach(id => $(id).selectedIndex = 0);
+
+        [
+            "callerName",
+            "otherRelationship",
+            "mdOfficeHours",
+            "deliveryDate",
+            "medicationName",
+            "copay",
+            "addressChangeReason",
+            "otherShippingMethod",
+            "shippingAddress",
+            "medicationCost",
+            "remarks"
+        ].forEach(id => $(id).value = "");
+
+        $("attestation").checked = false;
+        copyBtn.disabled = true;
+
+        $("otherRelationshipContainer").style.display = "none";
+        $("addressReasonContainer").style.display = "none";
+        $("otherShippingContainer").style.display = "none";
+
+    });
+
+
+    // ==========================
+    // STANDARD CASE NOTE
+    // ==========================
+
+    $("copyStandardBtn").addEventListener("click", async () => {
+
+        const fields = [
+            ["stdCaller", "Caller's Name"],
+            ["stdRelationship", "Relationship / Title"],
+            ["stdMedication", "Medication"],
+            ["stdIssue", "Issue / Reason for Call"],
+            ["stdResolution", "Resolution / Outcome"]
+        ];
+
+        for (const [id, label] of fields) {
+            if (!validateField(id, label)) return;
         }
 
         const note = `STANDARD CASE NOTE
 
 CALLER'S NAME:
-${caller.value}
+${val("stdCaller")}
 
 RELATIONSHIP TO PATIENT / TITLE:
-${relationship.value}
+${val("stdRelationship")}
 
 MEDICATION:
-${medication.value}
+${val("stdMedication")}
 
 ISSUE / REASON FOR CALL:
-${issue.value}
+${val("stdIssue")}
 
 RESOLUTION / OUTCOME:
-${resolution.value}`;
+${val("stdResolution")}`;
 
-        await navigator.clipboard.writeText(note);
+        try {
+            await navigator.clipboard.writeText(note);
 
-        let history =
-            JSON.parse(
-                localStorage.getItem("caseNotes") || "[]"
-            );
+            saveHistory("STANDARD", note);
 
-        history.unshift({
-            type: "STANDARD",
-            date: new Date().toLocaleString(),
-            note: note
-        });
+            alert("Standard note copied and saved!");
 
-        localStorage.setItem(
-            "caseNotes",
-            JSON.stringify(history)
-        );
+        } catch (error) {
+            alert("Unable to copy note.");
+        }
 
-        alert("Standard note copied and saved.");
     });
 
-}
 
-// ==========================
-// CLEAR STANDARD
-// ==========================
+    // ==========================
+    // CLEAR STANDARD NOTE
+    // ==========================
 
-document
-.getElementById("clearStandardBtn")
-?.addEventListener("click", () => {
+    $("clearStandardBtn").addEventListener("click", () => {
 
-    if (!confirm("Clear Standard Note?"))
-        return;
+        if (!confirm("Clear Standard Note?")) return;
 
-    document.getElementById("stdCaller").value = "";
-    document.getElementById("stdRelationship").value = "";
-    document.getElementById("stdMedication").value = "";
-    document.getElementById("stdIssue").value = "";
-    document.getElementById("stdResolution").value = "";
+        [
+            "stdCaller",
+            "stdRelationship",
+            "stdMedication",
+            "stdIssue",
+            "stdResolution"
+        ].forEach(id => $(id).value = "");
+
+    });
 
 });
-
-// ==========================
-// CLEAR FORM
-// ==========================
-
-document.getElementById("clearBtn")
-.addEventListener("click", () => {
-
-
-    const copyStandardBtn =
-    document.getElementById("copyStandardBtn");
-
-
-    
