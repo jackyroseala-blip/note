@@ -146,7 +146,6 @@ copyNoteBtn.addEventListener("click", async () => {
     const callerName = document.getElementById("callerName");
     const mdOfficeHours = document.getElementById("mdOfficeHours");
     const punr = document.getElementById("punr");
-    const orderNumber = document.getElementById("orderNumber");
     const medicationName = document.getElementById("medicationName");
     const medicationCost = document.getElementById("medicationCost");
     const deliveryDate = document.getElementById("deliveryDate");
@@ -364,7 +363,6 @@ document.getElementById("clearBtn")
     document.getElementById("otherRelationship").value = "";
     document.getElementById("mdOfficeHours").value = "";
     document.getElementById("punr").selectedIndex = 0;
-    document.getElementById("orderNumber").value = "";
     document.getElementById("deliveryDate").value = "";
     document.getElementById("copay").value = "";
     document.getElementById("obeNeeded").selectedIndex = 0;
