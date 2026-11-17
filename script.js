@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
         // Central Time
-        document.getElementById("ctTime").textContent =
+        .getElementById("ctTime").textContent =
             now.toLocaleTimeString("en-US", {
                 timeZone: "America/Chicago",
                 hour: "2-digit",
@@ -37,10 +37,10 @@ document.addEventListener("DOMContentLoaded", function () {
 // ELEMENTS
 // ==========================
 
-const noteBtn = document.getElementById("noteTabBtn");
-const historyBtn = document.getElementById("historyTabBtn");
+const noteBtn = .getElementById("noteTabBtn");
+const historyBtn = .getElementById("historyTabBtn");
 
-const noteTab = document.getElementById("noteTab");
+const noteTab = .getElementById("noteTab");
 const historyTab = document.getElementById("historyTab");
 
 const copyBtn = document.getElementById("copyNoteBtn");
@@ -135,6 +135,16 @@ document.getElementById("attestation")
 
 });
 
+document.getElementById("sameAddress")
+.addEventListener("change", function () {
+    document.getElementById(
+        "reasonAddressContainer"
+    ).style.display =
+        this.value === "No"
+            ? "block"
+            : "none";
+});
+
 // ==========================
 // COPY NOTE
 // ==========================
@@ -160,6 +170,7 @@ copyNoteBtn.addEventListener("click", async () => {
     const restrictedState = document.getElementById("restrictedState");
     const shippingMethod = document.getElementById("shippingMethod");
     const otherShippingMethod = document.getElementById("otherShippingMethod");
+    const reasonAddress = document.getElementById("reasonAddress");
 
     // Required Validation
 
