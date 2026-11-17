@@ -222,70 +222,46 @@ copyNoteBtn.addEventListener("click", async () => {
         return;
     }
 
-    let note = "CASE NOTE\n\n";
+    let note = "";
 
-    note += `Spoke With: ${spokeWith.value}\n`;
+note += `Spoke with: ${spokeWith.value}\n`;
+note += `Office Hours (If Office-Base): ${mdOfficeHours.value || "N"}\n`;
+note += `PUNR: ${punr.value}\n`;
+note += `Delivery Date: ${deliveryDate.value}\n`;
+note += `Medication: ${medicationName.value}\n`;
+note += `Copay/ AR Bal: ${copay.value}\n`;
+note += `OBE Needed?: ${obeNeeded.value}\n`;
+note += `Is there an active OBE?: ${activeObe.value}\n`;
+note += `Is the current address the same w/ previous order: ${sameAddress.value}\n`;
 
-    if (
-        spokeWith.value === "Other" &&
-        otherRelationship.value
-    ) {
-        note += `Other Relationship: ${otherRelationship.value}\n`;
-    }
-
-    note += `Caller's Name: ${callerName.value}\n`;
-
-    if (mdOfficeHours.value)
-        note += `MD Office Hours: ${mdOfficeHours.value}\n`;
-
-    note += `PUNR: ${punr.value}\n`;
-
-    if (orderNumber.value)
-        note += `Order Number: ${orderNumber.value}\n`;
-
-    if (deliveryDate.value)
-        note += `Delivery Date: ${deliveryDate.value}\n`;
-
-    if (copay.value)
-        note += `Copay / AR Balance: ${copay.value}\n`;
-
-    if (obeNeeded.value)
-        note += `OBE Needed: ${obeNeeded.value}\n`;
-
-    if (activeObe.value)
-        note += `Active OBE: ${activeObe.value}\n`;
-
-    if (medicaid.value)
-        note += `Insurance Under Medicaid: ${medicaid.value}\n`;
-
-    if (sameAddress.value)
-        note += `Address Same As Previous Order: ${sameAddress.value}\n`;
-
-    if (sameMd.value)
-        note += `Same MD On Rx: ${sameMd.value}\n`;
-
-    if (shippingAddress.value)
-        note += `Shipping Address: ${shippingAddress.value}\n`;
-
-    if (growthHormone.value)
-        note += `Growth Hormone Medication: ${growthHormone.value}\n`;
-
-    if (restrictedState.value)
-        note += `Shipping State CO/ID/MN/NV/RI/WV: ${restrictedState.value}\n`;
-
-   if (
-    shippingMethod.value === "Other" &&
-    otherShippingMethod.value
-) {
-    note += `Specified Shipping Method: ${otherShippingMethod.value}\n`;
+if (sameAddress.value === "No") {
+    note += `Reason for address change: ${reasonAddress.value || ""}\n`;
+} else {
+    note += `Reason for address change: NA\n`;
 }
 
-// Attestation
-note += `\nI attest that I have verified with the patient that there are no changes to the insurance on file.\n`;
+note += `If ship to MDO, is it the same MD on the Rx: ${sameMd.value || "NA"}\n`;
+note += `Is the insurance under Medicaid: ${medicaid.value}\n`;
+note += `Shipping Method: ${
+    shippingMethod.value === "Other"
+        ? otherShippingMethod.value
+        : shippingMethod.value
+}\n`;
+note += `Shipping Address: ${shippingAddress.value}\n`;
+note += `Is the medication a Growth Hormone: ${growthHormone.value}\n`;
+note += `Are the state under CO, ID, MN, NV, RI and WV?: ${restrictedState.value}\n`;
 
-// Shipping Reminder
-note += `\nShipping Reminder:\nDeliveries to CO, ID, MN, NV, RI, and WV must require a signature.\n`;
+if (restrictedState.value === "Yes") {
+    note += `If Yes, must be SIG Req: Yes\n`;
+} else {
+    note += `If Yes, must be SIG Req: N\n`;
+}
 
+note += `MEDICATION COST : ${medicationCost.value}\n`;
+
+note += `\n`;
+note += `I attest that I have verified with the patient that there are no changes to the insurance on file.`;
+   
     try {
 
         await navigator.clipboard.writeText(note);
