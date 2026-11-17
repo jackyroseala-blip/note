@@ -478,36 +478,47 @@ select option{
 }
 
 
+
 /* ====================================
    UPDATED DEL SET FORM
 ==================================== */
 
-#noteTab > .form-group,
-#noteTab > #otherRelationshipContainer,
-#noteTab > #otherShippingContainer {
+/* Consistent spacing for form groups */
+#noteTab .form-group {
     margin-bottom: 15px;
 }
 
-#addressReasonContainer {
-    align-self: end;
+/* Conditional fields */
+#otherRelationshipContainer,
+#otherShippingContainer {
+    margin-top: 10px;
+    margin-bottom: 15px;
 }
 
+/* Address reason field */
+#addressReasonContainer {
+    margin-bottom: 15px;
+}
+
+/* Text areas */
 #noteTab textarea {
     line-height: 1.5;
+    min-height: 65px;
 }
 
+/* Date input */
 #noteTab input[type="date"] {
     color: #777;
 }
 
-.form-group select,
-.form-group input,
-.form-group textarea {
+/* Input sizing */
+#noteTab input,
+#noteTab select,
+#noteTab textarea {
     width: 100%;
 }
 
-
-.standard-badge{
-    background:#E6F4EA;
-    color:#0A6E31;
+/* Section headings */
+#noteTab .section-title {
+    margin-bottom: 25px;
 }
