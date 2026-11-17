@@ -477,6 +477,36 @@ select option{
     color:#8A4B00;
 }
 
+
+/* ====================================
+   UPDATED DEL SET FORM
+==================================== */
+
+#noteTab > .form-group,
+#noteTab > #otherRelationshipContainer,
+#noteTab > #otherShippingContainer {
+    margin-bottom: 15px;
+}
+
+#addressReasonContainer {
+    align-self: end;
+}
+
+#noteTab textarea {
+    line-height: 1.5;
+}
+
+#noteTab input[type="date"] {
+    color: #777;
+}
+
+.form-group select,
+.form-group input,
+.form-group textarea {
+    width: 100%;
+}
+
+
 .standard-badge{
     background:#E6F4EA;
     color:#0A6E31;
