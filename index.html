@@ -48,359 +48,208 @@
 
        <section id="noteTab" class="card">
 
-    <h2 class="section-title">
-        DEL SET
-    </h2>
+   
+<h2 class="section-title">DEL SET</h2>
 
-    <!-- SPOKE WITH + CALLER -->
-
-    <div class="form-row">
-
-        <div class="form-group">
-            <label>
-                Spoke With
-                <span class="required">*</span>
-            </label>
-
-            <select id="spokeWith">
-                <option value="">Select an option</option>
-                <option>Patient</option>
-                <option>Spouse</option>
-                <option>Child</option>
-                <option>Sibling</option>
-                <option>Other</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>
-                Caller's Name
-                <span class="required">*</span>
-            </label>
-
-            <input
-                type="text"
-                id="callerName"
-                placeholder="Type PT's Complete Name">
-        </div>
-
+<div class="form-row">
+    <div class="form-group">
+        <label>Spoke With <span class="required">*</span></label>
+        <select id="spokeWith">
+            <option value="">Select an option</option>
+            <option>Patient</option>
+            <option>Spouse</option>
+            <option>Child</option>
+            <option>Sibling</option>
+            <option>MD Office</option>
+            <option>Other</option>
+        </select>
     </div>
-
-    <div id="otherRelationshipContainer" style="display:none;">
-        <label>Other Relationship</label>
-        <input type="text" id="otherRelationship">
-    </div>
-
-    <!-- MD OFFICE HOURS -->
-
-    <label>
-        MD Office Hours
-        <span class="field-note">(If Office-Based)</span>
-    </label>
-
-    <input
-        type="text"
-        id="mdOfficeHours"
-        placeholder="e.g. Mon-Fri, 9AM-5PM">
-
-    <!-- PUNR + ORDER NUMBER -->
-
-    <div class="form-row">
-
-        <div class="form-group">
-            <label>
-                PUNR
-                <span class="required">*</span>
-            </label>
-
-            <select id="punr">
-                <option value="">Select an option</option>
-                <option>Yes</option>
-                <option>No</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Order Number</label>
-
-            <input
-                type="number"
-                id="orderNumber"
-                placeholder="leave it black if you created note inside SOF">
-        </div>
-
-        <div class="form-row">
 
     <div class="form-group">
-        <label>
-            Medication Name
-            <span class="required">*</span>
-        </label>
-
-        <input
-            type="text"
-            id="medicationName"
-            placeholder="Enter medication name">
+        <label>Caller's Name <span class="required">*</span></label>
+        <input type="text" id="callerName" placeholder="Enter complete name">
     </div>
-
 </div>
 
-        <div class="form-row">
+<div id="otherRelationshipContainer" style="display:none;">
+    <label>Other Relationship *</label>
+    <input type="text" id="otherRelationship">
+</div>
+
+<div class="form-group">
+    <label>Office Hours <span class="field-note">(If Office-Based)</span></label>
+    <input type="text" id="mdOfficeHours" placeholder="Enter office hours or N/A">
+</div>
+
+<div class="form-row">
+    <div class="form-group">
+        <label>PUNR <span class="required">*</span></label>
+        <select id="punr">
+            <option value="">Select an option</option>
+            <option>Yes</option>
+            <option>No</option>
+        </select>
+    </div>
 
     <div class="form-group">
-        <label>
-            Medication Cost
-            <span class="required">*</span>
-        </label>
-
-        <input
-            type="text"
-            id="medicationCost"
-            placeholder="Enter medication cost">
+        <label>Delivery Date <span class="required">*</span></label>
+        <input type="date" id="deliveryDate">
     </div>
-
 </div>
+
+<div class="form-row">
+    <div class="form-group">
+        <label>Medication <span class="required">*</span></label>
+        <input type="text" id="medicationName" placeholder="Medication name">
     </div>
 
-           
+    <div class="form-group">
+        <label>Copay / AR Bal <span class="required">*</span></label>
+        <input type="text" id="copay" placeholder="Amount or N/A">
+    </div>
+</div>
 
-    <!-- DELIVERY DATE + COPAY -->
-
-    <div class="form-row">
-
-        <div class="form-group">
-
-            <label>
-                Delivery Date
-                <span class="required">*</span>
-            </label>
-
-            <input
-                type="date"
-                id="deliveryDate">
-
-        </div>
-
-        <div class="form-group">
-
-            <label>
-                Copay / AR Balance
-                <span class="required">*</span>
-            </label>
-
-            <input
-                type="text"
-                id="copay"
-                placeholder="Enter amount or N/A">
-
-        </div>
-
+<div class="form-row">
+    <div class="form-group">
+        <label>OBE Needed? *</label>
+        <select id="obeNeeded">
+            <option value="">Select an option</option>
+            <option>Yes</option>
+            <option>No</option>
+            <option>N/A</option>
+        </select>
     </div>
 
-    <!-- OBE ROW -->
+    <div class="form-group">
+        <label>Is There an Active OBE? *</label>
+        <select id="activeObe">
+            <option value="">Select an option</option>
+            <option>Yes</option>
+            <option>No</option>
+            <option>N/A</option>
+        </select>
+    </div>
+</div>
 
-    <div class="form-row">
-
-        <div class="form-group">
-
-            <label>OBE Needed?</label>
-
-            <select id="obeNeeded">
-                <option value="">Select an option</option>
-                <option>Yes</option>
-                <option>No</option>
-            </select>
-
-        </div>
-
-        <div class="form-group">
-
-            <label>Is There an Active OBE?</label>
-
-            <select id="activeObe">
-                <option value="">Select an option</option>
-                <option>Yes</option>
-                <option>No</option>
-            </select>
-
-        </div>
-
+<div class="form-row">
+    <div class="form-group">
+        <label>Is the Current Address the Same w/ Previous Order? *</label>
+        <select id="sameAddress">
+            <option value="">Select an option</option>
+            <option>Yes</option>
+            <option>No</option>
+        </select>
     </div>
 
-    <!-- MEDICAID -->
+    <div class="form-group" id="addressReasonContainer" style="display:none;">
+        <label>Reason for Address Change *</label>
+        <input type="text" id="addressChangeReason">
+    </div>
+</div>
 
-    <div class="form-row">
-
-        <div class="form-group">
-
-            <label>
-                Is There Insurance Under Medicaid?
-                <span class="required">*</span>
-            </label>
-
-            <select id="medicaid">
-                <option value="">Select an option</option>
-                <option>Yes</option>
-                <option>No</option>
-            </select>
-
-        </div>
-
-        <div class="form-group">
-
-            <label>
-                Is the Address the Same as the Previous Order?
-                <span class="required">*</span>
-            </label>
-
-            <select id="sameAddress">
-                <option value="">Select an option</option>
-                <option>Yes</option>
-                <option>No</option>
-            </select>
-
-        </div>
-
+<div class="form-row">
+    <div class="form-group">
+        <label>Shipping to MDO? *</label>
+        <select id="shipToMdo">
+            <option value="">Select an option</option>
+            <option>Yes</option>
+            <option>No</option>
+        </select>
     </div>
 
-    <!-- SAME MD + GROWTH -->
+    <div class="form-group">
+        <label>If Ship to MDO, Is It the Same MD on the Rx? *</label>
+        <select id="sameMd">
+            <option value="">Select an option</option>
+            <option>Yes</option>
+            <option>No</option>
+            <option>N/A</option>
+        </select>
+    </div>
+</div>
 
-    <div class="form-row">
-
-        <div class="form-group">
-
-            <label>
-                If Shipping to MDO, Is It the Same MD on the Rx?
-            </label>
-
-            <select id="sameMd">
-                <option value="">Select an option</option>
-                <option>Yes</option>
-                <option>No</option>
-            </select>
-
-        </div>
-
-        <div class="form-group">
-
-            <label>
-                Is the Medication a Growth Hormone?
-                <span class="required">*</span>
-            </label>
-
-            <select id="growthHormone">
-                <option value="">Select an option</option>
-                <option>Yes</option>
-                <option>No</option>
-            </select>
-
-        </div>
-
+<div class="form-row">
+    <div class="form-group">
+        <label>Is the Insurance Under Medicaid? *</label>
+        <select id="medicaid">
+            <option value="">Select an option</option>
+            <option>Yes</option>
+            <option>No</option>
+        </select>
     </div>
 
-    <!-- SHIPPING -->
+    <div class="form-group">
+        <label>Shipping Method *</label>
+        <select id="shippingMethod">
+            <option value="">Select an option</option>
+            <option>Signature Required</option>
+            <option>No Signature Required</option>
+            <option>Other</option>
+        </select>
+    </div>
+</div>
 
-    <div class="form-row">
+<div id="otherShippingContainer" style="display:none;">
+    <label>Specify Shipping Method *</label>
+    <input type="text" id="otherShippingMethod">
+</div>
 
-        <div class="form-group">
+<div class="form-group">
+    <label>Shipping Address <span class="required">*</span></label>
+    <textarea id="shippingAddress" placeholder="Complete shipping address"></textarea>
+</div>
 
-            <label>
-                Is the Shipping State CO, ID, MN, NV, RI, or WV?
-            </label>
-
-            <select id="restrictedState">
-                <option value="">Select an option</option>
-                <option>Yes</option>
-                <option>No</option>
-            </select>
-
-        </div>
-
-        <div class="form-group">
-
-            <label>
-                Shipping Method
-                <span class="required">*</span>
-            </label>
-
-            <select id="shippingMethod">
-                <option value="">Select an option</option>
-                <option>Signature Required</option>
-                <option>No Signature Required</option>
-                <option>Other</option>
-            </select>
-
-        </div>
-
+<div class="form-row">
+    <div class="form-group">
+        <label>Is the Medication a Growth Hormone? *</label>
+        <select id="growthHormone">
+            <option value="">Select an option</option>
+            <option>No</option>
+            <option>Yes</option>
+        </select>
     </div>
 
-    <div id="otherShippingContainer" style="display:none;">
-        <label>Specify Shipping Method</label>
-        <input type="text" id="otherShippingMethod">
+    <div class="form-group">
+        <label>Is the State CO, ID, MN, NV, RI, or WV? *</label>
+        <select id="restrictedState">
+            <option value="">Select an option</option>
+            <option>Yes</option>
+            <option>No</option>
+        </select>
     </div>
+</div>
 
-    <!-- SHIPPING ADDRESS -->
+<div class="form-group">
+    <label>Medication Cost <span class="required">*</span></label>
+    <input type="text" id="medicationCost" placeholder="Enter medication cost or N/A">
+</div>
 
+<div class="form-group">
+    <label>Remarks</label>
+    <textarea id="remarks" placeholder="Additional notes (optional)"></textarea>
+</div>
+
+<div class="reminder-box">
+    <strong>Shipping Reminder:</strong><br>
+    CO, ID, MN, NV, RI, and WV require Signature Required (SIG Req).
+</div>
+
+<div class="attestation">
     <label>
-        Shipping Address
-        <span class="required">*</span>
+        <input type="checkbox" id="attestation">
+        I attest that I have verified with the patient that there are no changes to the insurance on file.
     </label>
+</div>
 
-    <textarea
-        id="shippingAddress"
-        placeholder="Put Complete Address"></textarea>
-<label>
-    Remarks
-</label>
+<div class="button-row">
+    <button id="copyNoteBtn" class="btn btn-copy" disabled>
+        Copy Note
+    </button>
 
-<textarea
-    id="remarks"
-    placeholder="Enter additional notes or remarks"></textarea>
-    <!-- REMINDER -->
-
-    <div class="reminder-box">
-        <strong>Shipping Reminder:</strong><br>
-        Deliveries to CO, ID, MN, NV, RI, and WV must require a signature.
-    </div>
-
-    <!-- ATTESTATION -->
-
-    <div class="attestation">
-
-        <label>
-
-            <input
-                type="checkbox"
-                id="attestation">
-
-            I attest that I have verified with the patient that there are no changes to the insurance on file.
-
-        </label>
-
-    </div>
-
-    <!-- BUTTONS -->
-
-    <div class="button-row">
-
-        <button
-            id="copyNoteBtn"
-            class="btn btn-copy"
-            disabled>
-
-            Copy Note
-
-        </button>
-
-        <button
-            id="clearBtn"
-            class="btn btn-clear">
-
-            Clear Form
-
-        </button>
-
-    </div>
+    <button id="clearBtn" class="btn btn-clear">
+        Clear Form
+    </button>
+</div>
 
 
 <!-- STANDARD NOTE -->
